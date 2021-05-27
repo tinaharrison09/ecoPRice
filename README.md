@@ -25,5 +25,7 @@ Winfree, R., Fox, J. W., Williams, N. M., Reilly, J. R., & Cariveau, D. P. (2015
 
 ## Citations
 Fox, J. W. (2006). Using the Price equation to partition the effects of biodiversity loss on ecosystem function. Ecology, 87(11), 2687–2696. http://www.esajournals.org/doi/pdf/10.1890/0012-9658(2006)87%5B2687:UTPETP%5D2.0.CO%3B2
+
 Fox, J. W., & Kerr, B. (2012). Analyzing the effects of species gain and loss on ecosystem function using the extended Price equation partition. Oikos, 121, 290–298. https://doi.org/10.1111/j.1600-0706.2011.19656.x
+
 Harrison, T., Winfree, R., & Genung, M. Price equations for biodiversity-ecosystem function research. submitted American Naturalist Januaray 2021.
