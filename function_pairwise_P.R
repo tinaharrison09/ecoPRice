@@ -6,6 +6,8 @@ require(magrittr)
 # if reorder = "rich", function makes the site with more richness the baseline site
 # if split.migrants = TRUE, results in a 7-part partition (or 5 if using presence-absence data)
 
+
+
 # a1 etc. are species vectors
 part_one_pair = function(a1, a2, z1, z2, 
                      reorder = c("no", "EF", "rich"),
@@ -54,6 +56,9 @@ intr = A2*sum(p2*(z2 - z1)))
  out
 } # end function
 
+
+
+
 # a, z are species by site matrices
 part_all_pair = function(a, z, 
                          reorder = c("no", "EF", "rich"),
@@ -61,12 +66,19 @@ part_all_pair = function(a, z,
   (combn(1:ncol(a), 2) -> sites) %>% 
     apply(2, function(ind) {
       x = ind[1]; y = ind[2]
-      part_one_pair(a[x,], a[y,], z[x,], z[y,], 
+      part_one_pair(a[,x], a[,y], z[,x], z[,y], 
                     reorder = reorder, split.migrants = split.migrants)
     }) %>% t %>% cbind(t(sites))
 }
 
 
+pairwise_P = function(a, z, 
+                      a2 = NA, z2 = NA, 
+                      reorder = c("no", "EF", "rich"),
+                      split.migrants = FALSE) {
+  if(sum(is.na(a2)) > 0) {part_all_pair(a, z, 
+          reorder = reorder, split.migrants = split.migrants)} else {part_one_pair(a, a2, z, z2, reorder = reorder, split.migrants = split.migrants)}
+}
 
 
 # Testing
@@ -76,10 +88,11 @@ a = read.csv("data/watermelon_com.csv", row.names=1)
 z = read.csv("data/watermelon_fun.csv", row.names=1)
 # for both data sets, sites are in columns, species in rows
 x = 4; y = 9 # pick a pair of sites
-part_one_pair(a[x,], a[y,], z[x,], z[y,], reorder = "no")
-part_one_pair(a[x,], a[y,], z[x,], z[y,], reorder = "no", split.migrants = TRUE)
+
+# pairwise_P is a wrapper function for both part_one_pair and part_two_pair
+pairwise_P(a, z, reorder = "EF", split.migrants = FALSE) 
+pairwise_P(a[,x], z[,x], a[,y], z[,y], reorder = "EF", split.migrants = FALSE)
+part_one_pair(a[,x], a[,y], z[,x], z[,y], reorder = "EF", split.migrants = FALSE)
 # part_all_pair returns NAs for composition and intraspecific change when no species are shared between two sites. This is normal and good.
-# the function is a little slow; this is fine for now but would need to fixed before, say, apply the partition to thousands of randomized species-site matrices
-part_all_pair(a, z, reorder = "EF", split.migrants = FALSE)
 part_all_pair(ifelse(a>0,1,0), a*z, reorder = "rich", split.migrants = TRUE)
 
